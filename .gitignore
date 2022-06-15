@@ -1,0 +1,23 @@
+
+
+**/dist
+**/e2e
+**/.vscode
+**/node_modules
+**/deploy*
+# **/wwwroot
+**/bin
+**/obj
+**/docs
+**/Migrations
+**/out
+
+bin*
+# db/dev.db
+
+# db/dev*
+**-shm
+**-wal
+# **t.json
+
+# wwwroot*
