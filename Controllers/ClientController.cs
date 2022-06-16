@@ -18,12 +18,12 @@ namespace newsaharacom.Controllers
             _saharaDbContext = saharaDbContext;
         }
 
-      [HttpGet("{startIndex}/{pageSize}/{sortBy}/{sortDir}")]
+      [HttpGet("getAll/{startIndex}/{pageSize}/{sortBy}/{sortDir}")]
         public virtual async Task<IActionResult> GetAll(int startIndex, int pageSize, string sortBy, string sortDir)
         {
             var list = await _saharaDbContext.Clients
-                .Skip(startIndex)
-                .Take(pageSize)
+                // .Skip(startIndex)
+                // .Take(pageSize)
                 .ToListAsync()
                 ;
             int count = await _saharaDbContext.Clients.CountAsync();

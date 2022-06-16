@@ -19,16 +19,16 @@ namespace newsaharacom.Controllers
         }
 
         [HttpGet]
-        public ActionResult<IEnumerable<Article>> GetArticles ()
+        public ActionResult<IEnumerable<Article>> GetArticles()
         {
             return _saharaDbContext.Articles;
         }
-         [HttpGet("getAll/{startIndex}/{pageSize}/{sortBy}/{sortDir}")]
+        [HttpGet("getAll/{startIndex}/{pageSize}/{sortBy}/{sortDir}")]
         public virtual async Task<IActionResult> GetAll(int startIndex, int pageSize, string sortBy, string sortDir)
         {
             var list = await _saharaDbContext.Articles
-                .Skip(startIndex)
-                .Take(pageSize)
+                // .Skip(startIndex)
+                // .Take(pageSize)
                 .ToListAsync()
                 ;
             int count = await _saharaDbContext.Articles.CountAsync();
@@ -37,58 +37,98 @@ namespace newsaharacom.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> Getbyid(int id){
+        public async Task<IActionResult> Getbyid(int id)
+        {
             var exist = await _saharaDbContext.Articles.FindAsync(id);
-            if(exist == null)
-            return NotFound();
+            if (exist == null)
+                return NotFound();
 
             else
-            return Ok(exist);
+                return Ok(exist);
+
         }
 
+        // [HttpPost]
+        // public async Task<ActionResult> Create(Article article)
+        // {
+        //     await _saharaDbContext.Articles.AddAsync(article);
+        //     await _saharaDbContext.SaveChangesAsync();
+
+        //     return Ok(article);
+        // }
         [HttpPost]
-        public async Task<ActionResult> Create(Article article)
+        public virtual async Task<IActionResult> Post(Article model)
         {
-            await _saharaDbContext.Articles.AddAsync(article);
-            await _saharaDbContext.SaveChangesAsync();
+            await _saharaDbContext.Set<Article>().AddAsync(model);
 
-            return Ok(article);
+            try
+            {
+                await _saharaDbContext.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+
+            return Ok(model);
         }
+
+        // [HttpPost]
+        // public virtual async Task<IActionResult> PostRange(List<Article> models)
+        // {
+
+        //     await _saharaDbContext.Set<Article>().AddRangeAsync(models);
+        //     try
+        //     {
+        //         await _saharaDbContext.SaveChangesAsync();
+        //     }
+        //     catch (DbUpdateConcurrencyException ex)
+        //     {
+        //         return BadRequest(new { message = ex.Message });
+        //     }
+
+        //     return Ok(models);
+        // }
+
 
         [HttpPut]
-        public async Task<ActionResult> Put(int id, Article article){
-            if( id != article.id)
-               return BadRequest();
+        public async Task<ActionResult> Put(int id, Article article)
+        {
+            if (id != article.id)
+                return BadRequest();
 
             article.id = id;
             _saharaDbContext.Entry(article).State = EntityState.Modified;
 
-             try{
+            try
+            {
                 await _saharaDbContext.SaveChangesAsync();
-             }
-             catch(DbUpdateConcurrencyException)
-             {
+            }
+            catch (DbUpdateConcurrencyException)
+            {
                 var exist = await _saharaDbContext.Articles.FindAsync(id);
-                if(exist == null)
-                   return NotFound();
-                else 
-                   throw;
-             }
+                if (exist == null)
+                    return NotFound();
+                else
+                    throw;
+            }
 
-             return NoContent();
+            return NoContent();
         }
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(int id){
+        public async Task<IActionResult> Delete(int id)
+        {
             var exist = await _saharaDbContext.Articles.FindAsync(id);
-            if(exist == null)
-            return NotFound();
+            if (exist == null)
+                return NotFound();
 
-            else{
-            _saharaDbContext.Remove(exist);
-            await _saharaDbContext.SaveChangesAsync();
+            else
+            {
+                _saharaDbContext.Remove(exist);
+                await _saharaDbContext.SaveChangesAsync();
 
-            return Ok();
+                return Ok();
             }
         }
     }
