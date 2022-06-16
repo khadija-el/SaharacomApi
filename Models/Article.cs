@@ -12,7 +12,7 @@ namespace saharacomnew.Models
         public int stockfinal {get; set;}
         public int stockinitial {get; set;}
         public int qtevendue {get; set;}
-        public int qteacheté {get; set;}
+        public int qteachete {get; set;}
         public double prixachatHt {get; set;}
         public double prixachatttc {get; set;}
         public double prixventeHt {get; set;}

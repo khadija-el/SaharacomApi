@@ -38,7 +38,7 @@ namespace saharacomnew.Data
                 entity.Property(e => e.designation);
                 entity.Property(e => e.stockinitial);
                 entity.Property(e => e.stockfinal);
-                entity.Property(e => e.qteacheté);
+                entity.Property(e => e.qteachete);
                 entity.Property(e => e.qtevendue);
                 entity.Property(e => e.prixachatHt);
                 entity.Property(e => e.prixachatttc);

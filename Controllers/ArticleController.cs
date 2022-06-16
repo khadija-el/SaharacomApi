@@ -36,8 +36,8 @@ namespace newsaharacom.Controllers
             return Ok(new { list = list, count = count });
         }
 
-        [HttpGet("{id}")]
-        public async Task<IActionResult> Getbyid(int id)
+        [HttpGet("get/{id}")]
+        public async Task<IActionResult> Get(int id)
         {
             var exist = await _saharaDbContext.Articles.FindAsync(id);
             if (exist == null)
