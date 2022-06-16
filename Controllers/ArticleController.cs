@@ -48,14 +48,6 @@ namespace newsaharacom.Controllers
 
         }
 
-        // [HttpPost]
-        // public async Task<ActionResult> Create(Article article)
-        // {
-        //     await _saharaDbContext.Articles.AddAsync(article);
-        //     await _saharaDbContext.SaveChangesAsync();
-
-        //     return Ok(article);
-        // }
         [HttpPost]
         public virtual async Task<IActionResult> Post(Article model)
         {
@@ -91,45 +83,68 @@ namespace newsaharacom.Controllers
         // }
 
 
-        [HttpPut]
-        public async Task<ActionResult> Put(int id, Article article)
-        {
-            if (id != article.id)
-                return BadRequest();
+        // [HttpPut]
+        // public async Task<ActionResult> Put(int id, Article article)
+        // {
+        //     if (id != article.id)
+        //         return BadRequest();
 
-            article.id = id;
-            _saharaDbContext.Entry(article).State = EntityState.Modified;
+        //     article.id = id;
+        //     _saharaDbContext.Entry(article).State = EntityState.Modified;
+
+        //     try
+        //     {
+        //         await _saharaDbContext.SaveChangesAsync();
+        //     }
+        //     catch (DbUpdateConcurrencyException)
+        //     {
+        //         var exist = await _saharaDbContext.Articles.FindAsync(id);
+        //         if (exist == null)
+        //             return NotFound();
+        //         else
+        //             throw;
+        //     }
+
+        //     return NoContent();
+        // }
+         [HttpPut("{id}")]
+        public virtual async Task<IActionResult> Put([FromRoute] int id, [FromBody] Article model)
+        {
+            _saharaDbContext.Entry(model).State = EntityState.Modified;
 
             try
             {
                 await _saharaDbContext.SaveChangesAsync();
             }
-            catch (DbUpdateConcurrencyException)
+            catch (DbUpdateConcurrencyException ex)
             {
-                var exist = await _saharaDbContext.Articles.FindAsync(id);
-                if (exist == null)
-                    return NotFound();
-                else
-                    throw;
+                return BadRequest(new { message = ex.Message });
             }
 
             return NoContent();
         }
 
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(int id)
+
+        [HttpDelete("delete/{id}")]
+        public virtual async Task<IActionResult> Delete(int id)
         {
-            var exist = await _saharaDbContext.Articles.FindAsync(id);
-            if (exist == null)
-                return NotFound();
-
-            else
+            var model = await _saharaDbContext.Set<Article>().FindAsync(id);
+            if (model == null)
             {
-                _saharaDbContext.Remove(exist);
-                await _saharaDbContext.SaveChangesAsync();
-
-                return Ok();
+                return Ok(false);
             }
+
+            _saharaDbContext.Set<Article>().Remove(model);
+            try
+            {
+                await _saharaDbContext.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+
+            return Ok(true);
         }
     }
 }

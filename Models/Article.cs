@@ -7,7 +7,7 @@ namespace saharacomnew.Models
     {
         [Key]
         public int id {get; set;}
-        public string? refence {get; set;}
+        public string? reference {get; set;}
         public string? designation {get; set;}
         public int stockfinal {get; set;}
         public int stockinitial {get; set;}
