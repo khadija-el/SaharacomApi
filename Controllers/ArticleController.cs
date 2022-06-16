@@ -48,7 +48,7 @@ namespace newsaharacom.Controllers
 
         }
 
-        [HttpPost]
+        [HttpPost("post")]
         public virtual async Task<IActionResult> Post(Article model)
         {
             await _saharaDbContext.Set<Article>().AddAsync(model);
@@ -107,7 +107,7 @@ namespace newsaharacom.Controllers
 
         //     return NoContent();
         // }
-         [HttpPut("{id}")]
+         [HttpPut("put/{id}")]
         public virtual async Task<IActionResult> Put([FromRoute] int id, [FromBody] Article model)
         {
             _saharaDbContext.Entry(model).State = EntityState.Modified;
