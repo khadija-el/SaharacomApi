@@ -7,9 +7,9 @@ namespace saharacomnew.Models
     {
         [Key]
         public int id {get; set;}
-        public string? code {get; set;}
-        public string? nom {get; set;}
-        public string? numphone {get; set;}
+        public string? email {get; set;}
+        public string? raisonSocial {get; set;}
+        public string? tel {get; set;}
         public string? adresse {get; set;}
     }
 }

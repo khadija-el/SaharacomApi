@@ -37,7 +37,7 @@ namespace newsaharacom.Controllers
         }
 
         [HttpGet("get/{id}")]
-        public async Task<IActionResult> Get(int id)
+        public async Task<IActionResult> Getbyid(int id)
         {
             var exist = await _saharaDbContext.Articles.FindAsync(id);
             if (exist == null)
@@ -48,7 +48,7 @@ namespace newsaharacom.Controllers
 
         }
 
-        [HttpPost("post")]
+        [HttpPost]
         public virtual async Task<IActionResult> Post(Article model)
         {
             await _saharaDbContext.Set<Article>().AddAsync(model);
@@ -65,49 +65,7 @@ namespace newsaharacom.Controllers
             return Ok(model);
         }
 
-        // [HttpPost]
-        // public virtual async Task<IActionResult> PostRange(List<Article> models)
-        // {
-
-        //     await _saharaDbContext.Set<Article>().AddRangeAsync(models);
-        //     try
-        //     {
-        //         await _saharaDbContext.SaveChangesAsync();
-        //     }
-        //     catch (DbUpdateConcurrencyException ex)
-        //     {
-        //         return BadRequest(new { message = ex.Message });
-        //     }
-
-        //     return Ok(models);
-        // }
-
-
-        // [HttpPut]
-        // public async Task<ActionResult> Put(int id, Article article)
-        // {
-        //     if (id != article.id)
-        //         return BadRequest();
-
-        //     article.id = id;
-        //     _saharaDbContext.Entry(article).State = EntityState.Modified;
-
-        //     try
-        //     {
-        //         await _saharaDbContext.SaveChangesAsync();
-        //     }
-        //     catch (DbUpdateConcurrencyException)
-        //     {
-        //         var exist = await _saharaDbContext.Articles.FindAsync(id);
-        //         if (exist == null)
-        //             return NotFound();
-        //         else
-        //             throw;
-        //     }
-
-        //     return NoContent();
-        // }
-         [HttpPut("put/{id}")]
+        [HttpPut("put/{id}")]
         public virtual async Task<IActionResult> Put([FromRoute] int id, [FromBody] Article model)
         {
             _saharaDbContext.Entry(model).State = EntityState.Modified;
@@ -123,7 +81,6 @@ namespace newsaharacom.Controllers
 
             return NoContent();
         }
-
 
         [HttpDelete("delete/{id}")]
         public virtual async Task<IActionResult> Delete(int id)
