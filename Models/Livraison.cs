@@ -3,18 +3,23 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace saharacomnew.Models
 {
-    public class Livraison
+    public class LivraisonClient
     {
         [Key]
-        public int id {get; set;}
-        public int num {get; set;}
-        public DateTime date {get; set;}
-        public string? info {get; set;}
-        public double Montantht {get; set;}
+        public int Id {get; set;}
+        public int Numero {get; set;}
+        public DateTime Date {get; set;}
+        public string? Info {get; set;}
+        public double MontantHT {get; set;}
         public int tva {get; set;}
-        public double montantttc {get; set;}
+        public double MontantTTC {get; set;}
         [Required]
         [ForeignKey("Clients")]
-        public int clientid {get; set;}
+        public int IdClient {get; set;}
+        public Client? Client { get; set; }
+
+		public virtual ICollection<DetailLivraisonClient>? DetailLivraisonClients { get; set; }
+
+		
     }
 }

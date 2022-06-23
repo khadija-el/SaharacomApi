@@ -18,5 +18,7 @@ namespace saharacomnew.Models
         public double prixventeHt {get; set;}
         public double prixventettc {get; set;}
         public string? info {get; set;}
+		public virtual ICollection<DetailLivraisonClient>? DetailLivraisonClients { get; set; }
+
     }
 }

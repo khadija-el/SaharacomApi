@@ -21,12 +21,12 @@ namespace newsaharacom.Controllers
         [HttpGet]
         public ActionResult<IEnumerable<Tva>> GetTvas ()
         {
-            return _saharaDbContext.Tvas;
+            return _saharaDbContext.Tva;
         }
 
         [HttpGet("{id}")]
         public async Task<IActionResult> Getbyid(int id){
-            var exist = await _saharaDbContext.Tvas.FindAsync(id);
+            var exist = await _saharaDbContext.Tva.FindAsync(id);
             if(exist == null)
             return NotFound();
 
@@ -37,7 +37,7 @@ namespace newsaharacom.Controllers
         [HttpPost]
         public async Task<ActionResult> Create(Tva tva)
         {
-            await _saharaDbContext.Tvas.AddAsync(tva);
+            await _saharaDbContext.Tva.AddAsync(tva);
             await _saharaDbContext.SaveChangesAsync();
 
             return Ok();
@@ -56,7 +56,7 @@ namespace newsaharacom.Controllers
              }
              catch(DbUpdateConcurrencyException)
              {
-                var exist = await _saharaDbContext.Tvas.FindAsync(id);
+                var exist = await _saharaDbContext.Tva.FindAsync(id);
                 if(exist == null)
                    return NotFound();
                 else 
@@ -68,7 +68,7 @@ namespace newsaharacom.Controllers
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id){
-            var exist = await _saharaDbContext.Tvas.FindAsync(id);
+            var exist = await _saharaDbContext.Tva.FindAsync(id);
             if(exist == null)
             return NotFound();
 

@@ -102,5 +102,28 @@ namespace newsaharacom.Controllers
 
             return Ok(true);
         }
+
+          [HttpGet("GetForSelect")]
+          public virtual async Task<IActionResult> GetForSelect()
+        {
+            var list0 = (await _saharaDbContext.Set<Client>().ToListAsync())
+                .Select((e, i) => new{
+                    p = e.GetType().GetProperties().Select(s => s.Name),
+                    name = e.GetType().GetProperties()[2].GetValue(e, null),
+                })
+                .ToList()
+            ;
+
+            //  var list = await _saharaDbContext.Clients
+            //     .Select(e => new{
+            //         id = e.GetType().GetProperty("Id").GetValue(e, null),
+            //         name = e.GetType().GetProperties().ElementAtOrDefault(1).GetValue(e, null),
+            //     })
+            //     .ToListAsync()
+            // ;
+
+            return Ok(list0);
+        }
+
     }
 }

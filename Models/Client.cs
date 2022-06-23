@@ -11,5 +11,7 @@ namespace saharacomnew.Models
         public string? raisonSocial {get; set;}
         public string? tel {get; set;}
         public string? adresse {get; set;}
+        public virtual ICollection<LivraisonClient>? LivraisonClients { get; set; }
+		
     }
 }
