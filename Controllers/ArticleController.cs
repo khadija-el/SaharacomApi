@@ -48,7 +48,7 @@ namespace newsaharacom.Controllers
 
         }
 
-        [HttpPost]
+        [HttpPost("post")]
         public virtual async Task<IActionResult> Post(Article model)
         {
             await _saharaDbContext.Set<Article>().AddAsync(model);

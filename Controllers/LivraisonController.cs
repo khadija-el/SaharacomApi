@@ -1,8 +1,11 @@
 using saharacomnew.Models;
+using System;
+using System.Threading.Tasks;
 using saharacomnew.Data;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Linq;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
@@ -10,10 +13,10 @@ namespace newsaharacom.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class LivraisonController : ControllerBase
+    public class LivraisonClientsController : ControllerBase
     {
         private readonly SaharaDbContext _saharaDbContext;
-        public LivraisonController(SaharaDbContext saharaDbContext)
+        public LivraisonClientsController(SaharaDbContext saharaDbContext)
         {
             _saharaDbContext = saharaDbContext;
         }
@@ -27,6 +30,50 @@ namespace newsaharacom.Controllers
                 .ToListAsync()
                 ;
             int count = await _saharaDbContext.Set<LivraisonClient>().CountAsync();
+
+            return Ok(new { list = list, count = count });
+        }
+
+        [HttpGet("GetPage/{startIndex}/{pageSize}/{sortBy}/{sortDir}/{numero}/{dateCreationDebut}/{dateCreationFin}/{montantTTCMin}/{montantTTCMax}/{idClient}")]
+        public async Task<IActionResult> GetPage(
+            int startIndex
+            , int pageSize
+            , string sortBy
+            , string sortDir
+            , string numero, DateTime dateCreationDebut, DateTime dateCreationFin, double montantTTCMin, double montantTTCMax, int idClient )
+        {
+
+            var debut = dateCreationDebut.ToUniversalTime();
+            var fin = dateCreationFin.ToUniversalTime();
+            var q = _saharaDbContext.Set<LivraisonClient>()
+            .Where(e => numero == "*" ? true : e.Numero.ToLower().Contains(numero.ToLower()))
+            .Where(e => DateTime.Compare(e.Date, debut) >= 0 && DateTime.Compare(e.Date, fin) <= 0)
+            // .Where(e => montantTTCMin == montantTTCMax ? true : montantTTCMin <= e.MontantTTC && e.MontantTTC >= montantTTCMax)
+            // .Where(e => idEtatLivraison == 0 ? true : e.IdEtatLivraison == idEtatLivraison)
+            // .Where(e => idComercial == 0 ? true : e.IdComercial == idComercial)
+            // .Where(e => idClient == 0 ? true : e.IdClient == idClient)
+
+            .OrderByDescending(e => e.Id)
+            ;
+
+            int count = await q.CountAsync();
+
+            var list = await q.Skip(startIndex)
+                .Take(pageSize)
+                .Select(e => new
+                {
+                    e.Id,
+                    e.Numero,
+                    e.Date,
+                    e.Info,
+                    e.MontantHT,
+                    e.tva,
+                    e.MontantTTC,
+                    Client = e.Client != null ? e.Client.raisonSocial : "",
+                    e.IdClient,
+                })
+                .ToListAsync()
+                ;
 
             return Ok(new { list = list, count = count });
         }
