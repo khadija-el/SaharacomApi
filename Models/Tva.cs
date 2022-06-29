@@ -7,8 +7,8 @@ namespace saharacomnew.Models
     {
         [Key]
         public int id {get; set;}
-        public string? code {get; set;}
-        public string? designation {get; set;}
+        public string code {get; set;}
+        public string designation {get; set;}
         public int taux {get; set;}
         public virtual ICollection<DetailLivraisonClient>? DetailLivraisonClients { get; set; }
 

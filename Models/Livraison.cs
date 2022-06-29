@@ -7,9 +7,9 @@ namespace saharacomnew.Models
     {
         [Key]
         public int Id {get; set;}
-        public string? Numero {get; set;}
+        public string Numero {get; set;}
         public DateTime Date {get; set;}
-        public string? Info {get; set;}
+        public string Info {get; set;}
         public double MontantHT {get; set;}
         public int tva {get; set;}
         public double MontantTTC {get; set;}

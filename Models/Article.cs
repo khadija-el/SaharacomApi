@@ -7,8 +7,8 @@ namespace saharacomnew.Models
     {
         [Key]
         public int id {get; set;}
-        public string? reference {get; set;}
-        public string? designation {get; set;}
+        public string reference {get; set;}
+        public string designation {get; set;}
         public int stockfinal {get; set;}
         public int stockinitial {get; set;}
         public int qtevendue {get; set;}
@@ -17,7 +17,7 @@ namespace saharacomnew.Models
         public double prixachatttc {get; set;}
         public double prixventeHt {get; set;}
         public double prixventettc {get; set;}
-        public string? info {get; set;}
+        public string info {get; set;}
 		public virtual ICollection<DetailLivraisonClient>? DetailLivraisonClients { get; set; }
 
     }

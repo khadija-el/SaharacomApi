@@ -18,7 +18,7 @@ namespace newsaharacom.Controllers
             _saharaDbContext = saharaDbContext;
         }
 
-      [HttpGet("getAll/{startIndex}/{pageSize}/{sortBy}/{sortDir}")]
+        [HttpGet("getAll/{startIndex}/{pageSize}/{sortBy}/{sortDir}")]
         public virtual async Task<IActionResult> GetAll(int startIndex, int pageSize, string sortBy, string sortDir)
         {
             var list = await _saharaDbContext.Clients
@@ -32,19 +32,20 @@ namespace newsaharacom.Controllers
         }
 
         [HttpGet]
-        public ActionResult<IEnumerable<Client>> GetClients ()
+        public ActionResult<IEnumerable<Client>> GetClients()
         {
             return _saharaDbContext.Clients;
         }
 
         [HttpGet("get/{id}")]
-        public async Task<IActionResult> Getbyid(int id){
+        public async Task<IActionResult> Getbyid(int id)
+        {
             var exist = await _saharaDbContext.Clients.FindAsync(id);
-            if(exist == null)
-            return NotFound();
+            if (exist == null)
+                return NotFound();
 
             else
-            return Ok(exist);
+                return Ok(exist);
         }
 
         [HttpPost("post")]
@@ -103,24 +104,17 @@ namespace newsaharacom.Controllers
             return Ok(true);
         }
 
-          [HttpGet("GetForSelect")]
-          public virtual async Task<IActionResult> GetForSelect()
+        [HttpGet("GetForSelect")]
+        public virtual async Task<IActionResult> GetForSelect()
         {
-            var list0 = (await _saharaDbContext.Set<Client>().ToListAsync())
-                .Select((e, i) => new{
-                    p = e.GetType().GetProperties().Select(s => s.Name),
-                    name = e.GetType().GetProperties()[2].GetValue(e, null),
+            var list0 = await _saharaDbContext.Clients
+                .Select(e => new
+                {
+                    e.id,
+                    e.raisonSocial,
                 })
-                .ToList()
+                .ToListAsync()
             ;
-
-            //  var list = await _saharaDbContext.Clients
-            //     .Select(e => new{
-            //         id = e.GetType().GetProperty("Id").GetValue(e, null),
-            //         name = e.GetType().GetProperties().ElementAtOrDefault(1).GetValue(e, null),
-            //     })
-            //     .ToListAsync()
-            // ;
 
             return Ok(list0);
         }
