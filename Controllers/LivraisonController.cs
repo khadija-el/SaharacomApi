@@ -48,10 +48,10 @@ namespace newsaharacom.Controllers
             var q = _saharaDbContext.Set<LivraisonClient>()
             .Where(e => numero == "*" ? true : e.Numero.ToLower().Contains(numero.ToLower()))
             .Where(e => DateTime.Compare(e.Date, debut) >= 0 && DateTime.Compare(e.Date, fin) <= 0)
-            // .Where(e => montantTTCMin == montantTTCMax ? true : montantTTCMin <= e.MontantTTC && e.MontantTTC >= montantTTCMax)
+            .Where(e => montantTTCMin == montantTTCMax ? true : montantTTCMin <= e.MontantTTC && e.MontantTTC >= montantTTCMax)
             // .Where(e => idEtatLivraison == 0 ? true : e.IdEtatLivraison == idEtatLivraison)
             // .Where(e => idComercial == 0 ? true : e.IdComercial == idComercial)
-            // .Where(e => idClient == 0 ? true : e.IdClient == idClient)
+            .Where(e => idClient == 0 ? true : e.IdClient == idClient)
 
             .OrderByDescending(e => e.Id)
             ;
@@ -186,11 +186,11 @@ namespace newsaharacom.Controllers
 
         //     string Name = char.ToUpper(name[0]) + name.Substring(1);
 
-        //     var list = await _saharaDbContext.Set<LivraisonClient>()
+        //    var list = await _saharaDbContext.Set<LivraisonClient>()
         //         .FromSqlRaw(String.Format(@"SELECT * FROM {0} where {1} LIKE '%{2}%'", tableName, name, value.Replace("'", "''")))
         //         .Select(e => new{
         //             id = e.GetType().GetProperty("Id").GetValue(e, null),
-        //             name = e.GetType().GetProperty(Name).GetValue(e, null),
+        //             name = e.GetType().GetProperty(Name).GetValue(e, null), 
         //         })
         //         .Take(10)
         //         .ToListAsync()

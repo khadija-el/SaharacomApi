@@ -112,14 +112,15 @@ namespace newsaharacom.Controllers
                     name = e.GetType().GetProperties()[2].GetValue(e, null),
                 })
                 .ToList()
+                
             ;
-
-            //  var list = await _saharaDbContext.Clients
+        
+            // var list = await _saharaDbContext.Clients
             //     .Select(e => new{
             //         id = e.GetType().GetProperty("Id").GetValue(e, null),
             //         name = e.GetType().GetProperties().ElementAtOrDefault(1).GetValue(e, null),
             //     })
-            //     .ToListAsync()
+            //     .ToListAsync() 
             // ;
 
             return Ok(list0);
