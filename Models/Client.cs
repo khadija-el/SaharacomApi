@@ -7,10 +7,10 @@ namespace saharacomnew.Models
     {
         [Key]
         public int id {get; set;}
-        public string? email {get; set;}
-        public string? raisonSocial {get; set;}
-        public string? tel {get; set;}
-        public string? adresse {get; set;}
+        public string email {get; set;}
+        public string raisonSocial {get; set;}
+        public string tel {get; set;}
+        public string adresse {get; set;}
         public virtual ICollection<LivraisonClient>? LivraisonClients { get; set; }
 		
     }

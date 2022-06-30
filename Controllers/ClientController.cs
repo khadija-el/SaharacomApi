@@ -18,7 +18,7 @@ namespace newsaharacom.Controllers
             _saharaDbContext = saharaDbContext;
         }
 
-      [HttpGet("getAll/{startIndex}/{pageSize}/{sortBy}/{sortDir}")]
+        [HttpGet("getAll/{startIndex}/{pageSize}/{sortBy}/{sortDir}")]
         public virtual async Task<IActionResult> GetAll(int startIndex, int pageSize, string sortBy, string sortDir)
         {
             var list = await _saharaDbContext.Clients
@@ -32,19 +32,20 @@ namespace newsaharacom.Controllers
         }
 
         [HttpGet]
-        public ActionResult<IEnumerable<Client>> GetClients ()
+        public ActionResult<IEnumerable<Client>> GetClients()
         {
             return _saharaDbContext.Clients;
         }
 
         [HttpGet("get/{id}")]
-        public async Task<IActionResult> Getbyid(int id){
+        public async Task<IActionResult> Getbyid(int id)
+        {
             var exist = await _saharaDbContext.Clients.FindAsync(id);
-            if(exist == null)
-            return NotFound();
+            if (exist == null)
+                return NotFound();
 
             else
-            return Ok(exist);
+                return Ok(exist);
         }
 
         [HttpPost("post")]
@@ -103,14 +104,16 @@ namespace newsaharacom.Controllers
             return Ok(true);
         }
 
-          [HttpGet("GetForSelect")]
-          public virtual async Task<IActionResult> GetForSelect()
+        [HttpGet("GetForSelect")]
+        public virtual async Task<IActionResult> GetForSelect()
         {
-            var list0 = (await _saharaDbContext.Set<Client>().ToListAsync())
-                .Select((e, i) => new{
-                    p = e.GetType().GetProperties().Select(s => s.Name),
-                    name = e.GetType().GetProperties()[2].GetValue(e, null),
+            var list0 = await _saharaDbContext.Clients
+                .Select(e => new
+                {
+                    e.id,
+                    e.raisonSocial,
                 })
+<<<<<<< HEAD
                 .ToList()
                 
             ;
@@ -122,6 +125,10 @@ namespace newsaharacom.Controllers
             //     })
             //     .ToListAsync() 
             // ;
+=======
+                .ToListAsync()
+            ;
+>>>>>>> f3bee013b4ebdcef2c5a7302872b6b4200acdad5
 
             return Ok(list0);
         }
